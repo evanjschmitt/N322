@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "homework01",
-    "slug": "homework01",
+    "name": "hw01",
+    "slug": "hw01",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
