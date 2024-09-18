@@ -6,7 +6,13 @@ import { Ionicons } from "@expo/vector-icons";
 export default function RootLayout() {
   return (
     <GestureHandlerRootView>
-      <Drawer drawerContent={CustomDrawerContent}>
+      <Drawer drawerContent={CustomDrawerContent}
+      screenOptions={{
+        drawerHideStatusBarOnOpen: true,
+        drawerActiveBackgroundColor: "#5363df",
+        drawerActiveTintColor: "#fff",
+        drawerLabelStyle: {marginLeft: -20}
+      }}>
         <Drawer.Screen
           name="index"
           options={{
