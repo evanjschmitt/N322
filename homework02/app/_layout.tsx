@@ -40,7 +40,7 @@ export default function RootLayout() {
   return (
     <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
       <ClerkLoaded>
-        <Stack>
+        <Stack screenOptions={{headerShown: false}}>
           <SignedIn>
             <Stack.Screen name="tabs" options={{ headerShown: false}} />
           </SignedIn>
