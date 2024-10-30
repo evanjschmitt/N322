@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "week09",
-    "slug": "week09",
+    "name": "fbAuthApp",
+    "slug": "fbAuthApp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
