@@ -2,20 +2,35 @@
 import { initializeApp } from "firebase/app";
 import { initializeAuth} from "firebase/auth";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
-import { getReactNativePersistence } from '@firebase/auth/dist/rn/index.js';
+import { getReactNativePersistence } from "@firebase/auth/dist/rn/index.js";
+import { Platform } from "react-native";
+import {getFirestore} from "firebase/firestore"
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAQ1FZ-ZREJszZwAmsf9eIbExdYoiPUoFI",
-  authDomain: "auth-e3ba3.firebaseapp.com",
-  projectId: "auth-e3ba3",
-  storageBucket: "auth-e3ba3.appspot.com",
-  messagingSenderId: "1009907450257",
-  appId: "1:1009907450257:web:0673be6a70db097fbd5a30",
+  apiKey: "AIzaSyAhOEQ5ht9JlY2y5Nt-AshgnPnrLqJ9vNY",
+  authDomain: "n322-class-e4d87.firebaseapp.com",
+  projectId: "n322-class-e4d87",
+  storageBucket: "n322-class-e4d87.appspot.com",
+  messagingSenderId: "883916453823",
+  appId: "1:883916453823:web:3d861c6698d7e3b9da530a",
+  measurementId: "G-J0Y7YNZCPM",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = initializeAuth(app, {
-  persistence: getReactNativePersistence(ReactNativeAsyncStorage),
-});
+const db = getFirestore(app)
+let auth;
+// Initialize Firebase
+if (Platform.OS === "web") {
+  // For web, use a different persistence method
+  auth = initializeAuth(app);
+} else {
+  // For mobile, use React Native AsyncStorage
+  const app = initializeApp(firebaseConfig);
+  auth = initializeAuth(app, {
+    persistence: getReactNativePersistence(ReactNativeAsyncStorage),
+  });
+}
+
+export { auth, db };
