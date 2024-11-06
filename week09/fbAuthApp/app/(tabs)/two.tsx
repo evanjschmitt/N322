@@ -1,26 +1,38 @@
 import { FlatList, StyleSheet } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { Text, View } from "@/components/Themed";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { db } from "@/FirebaseConfig";
-import { collection, addDoc, getDocs } from "firebase/firestore";
+import { collection, addDoc, getDocs, onSnapshot } from "firebase/firestore";
 
 export default function TabTwoScreen() {
   const [userName, setUserName] = useState("");
-  const [data, setData] = useState();
+  const [data, setData] = useState([]); // Initialize as an empty array
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "ReactUser"), (snapshot) => {
+      const docs = [];
+      snapshot.forEach((doc) => {
+        docs.push({ id: doc.id, ...doc.data() });
+        console.log(doc.id, " => ", doc.data());
+      });
+      setData(docs);
+    });
+    return () => unsubscribe();
+  }, []);
 
   const addUser = async () => {
     console.log(userName);
     const userObj = {
       name: userName,
     };
-    await addDoc(collection(db, "ReactUser"), userObj)
-      .then((docRef) => {
-        console.log("Document written with ID:", docRef.id);
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error.message);
-      });
+    try {
+      const docRef = await addDoc(collection(db, "ReactUser"), userObj);
+      setUserName("");
+      console.log("Document written with ID:", docRef.id);
+    } catch (error) {
+      console.error("Error adding document: ", error.message);
+    }
   };
 
   const showNames = async () => {
@@ -29,8 +41,7 @@ export default function TabTwoScreen() {
       const querySnapshot = await getDocs(collection(db, "ReactUser"));
       const docs = [];
       querySnapshot.forEach((doc) => {
-        // console.log(doc.id, " => ", doc.data())
-        docs.push(doc.id, " => ", doc.data());
+        docs.push({ id: doc.id, ...doc.data() });
       });
       setData(docs);
     } catch (e) {
@@ -49,22 +60,21 @@ export default function TabTwoScreen() {
       <Text>Join our email list!</Text>
       <TextInput
         value={userName}
+        style={styles.nameInput}
         placeholder="What's Your Name?"
         onChangeText={(text) => setUserName(text)}
-      ></TextInput>
+      />
       <Button style={styles.button} mode="contained" onPress={addUser}>
         Join Us :)
       </Button>
       <Button style={styles.button} mode="contained" onPress={showNames}>
         View Name List
       </Button>
-      <View>
-        <FlatList
-          data={data}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Text>{item.name}</Text>}
-        />
-      </View>
+      <FlatList
+        data={data}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => <Button style={styles.button} mode="contained">{item.name}</Button>}
+      />
     </View>
   );
 }
@@ -86,5 +96,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 20,
+  },
+  nameInput: {
+    height: 40, // Make the input box height more standard
+    width: "80%", // Add width to make it easier to type into
+    marginVertical: 10,
   },
 });
