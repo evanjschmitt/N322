@@ -2,7 +2,7 @@ import React from "react";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Text } from "react-native";
 import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { Pressable, Platform } from "react-native";
 
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
@@ -49,10 +49,32 @@ export default function TabLayout() {
       <Tabs.Screen
         name="two"
         options={{
-          title: "Tab Two",
+          title: "Name List",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
+      if () {}
+      {Platform.OS === "web" ? (
+        <Tabs.Screen
+          name="webpic"
+          options={{
+            title: "Web Image",
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="image" color={color} />
+            ),
+          }}
+        />
+      ) : (
+        <Tabs.Screen
+          name="picture"
+          options={{
+            title: "Take Picture",
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="camera" color={color} />
+            ),
+          }}
+        />
+      )}
     </Tabs>
   );
 }

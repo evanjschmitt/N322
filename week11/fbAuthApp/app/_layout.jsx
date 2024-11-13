@@ -58,6 +58,20 @@ function RootLayoutNav() {
   const [isLoading, setIsLoading] = useState(true);
   const navigation = useNavigation();
 
+  //NEW
+  onAuthStateChanged(auth, (user) => {
+    console.log("User: ");
+    setIsLoading(false);
+    if (user) {
+      router.replace("./(tabs)");
+    } else {
+      
+    }
+    if (isLoading) {
+      return <Text>Loading...</Text>;
+    }
+  });
+
   // Need to add the firebase auth state listener here
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>

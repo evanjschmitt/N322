@@ -1,15 +1,23 @@
-import { FlatList, StyleSheet, ScrollView } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import { Button, TextInput } from "react-native-paper";
 import { Text, View } from "@/components/Themed";
 import React, { useState, useEffect } from "react";
 import { db } from "@/FirebaseConfig";
-import { collection, addDoc, getDocs, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  onSnapshot,
+  deleteDoc,
+  doc,
+} from "firebase/firestore"; // Import doc here
 
 export default function TabTwoScreen() {
   const [userName, setUserName] = useState("");
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    // Fetch data in real-time from Firestore collection
     const unsubscribe = onSnapshot(collection(db, "ReactUser"), (snapshot) => {
       const docs = [];
       snapshot.forEach((doc) => {
@@ -28,27 +36,21 @@ export default function TabTwoScreen() {
       name: userName,
     };
 
-    await addDoc(collection(db, "ReactUser"), userObj)
-      .then((docRef) => {
-        setUserName("");
-        console.log("Document written with ID: ", docRef.id);
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error.message);
-      });
+    try {
+      const docRef = await addDoc(collection(db, "ReactUser"), userObj);
+      setUserName(""); // Clear input after adding
+      console.log("Document written with ID: ", docRef.id);
+    } catch (error) {
+      console.error("Error adding document: ", error.message);
+    }
   };
 
-  const showNames = async () => {
+  const deleteItem = async (buttonID) => {
+    console.log(buttonID);
     try {
-      const querySnapshot = await getDocs(collection(db, "ReactUser"));
-      const docs = [];
-      querySnapshot.forEach((doc) => {
-        docs.push({ id: doc.id, ...doc.data() });
-        console.log(doc.id, " => ", doc.data());
-      });
-      setData(docs);
-    } catch (e) {
-      console.error("Error getting documents: ", e.message);
+      await deleteDoc(doc(db, "ReactUser", buttonID)); // Use doc function here
+    } catch (error) {
+      console.error("ERROR:", error);
     }
   };
 
@@ -63,24 +65,25 @@ export default function TabTwoScreen() {
         <TextInput
           autoCapitalize="none"
           value={userName}
-          placeholder="Add Persons Name"
+          placeholder="Add Person's Name"
           onChangeText={(text) => setUserName(text)}
         />
         <Button mode="contained" onPress={addUser}>
           Add Person
         </Button>
-        <Button mode="contained" onPress={showNames}>
-          Show Names
-        </Button>
       </View>
-      {/* Need to add a delete button to delete the name from the list */}
+
       <FlatList
         data={data}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View>
             <Text>{item.name}</Text>
-            <Button style={styles.btn} mode="outlined">
+            <Button
+              onPress={() => deleteItem(item.id)}
+              style={styles.btn}
+              mode="outlined"
+            >
               Delete
             </Button>
           </View>

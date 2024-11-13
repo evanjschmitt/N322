@@ -6,12 +6,13 @@ import { Platform } from "react-native";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC4WwQhd4DHWcrvmrXVhVE8ig834ecK_tY",
-  authDomain: "mobileclassprojects.firebaseapp.com",
-  projectId: "mobileclassprojects",
-  storageBucket: "mobileclassprojects.appspot.com",
-  messagingSenderId: "377457187338",
-  appId: "1:377457187338:web:afc705b0e9b62452291df3",
+  apiKey: "AIzaSyAhOEQ5ht9JlY2y5Nt-AshgnPnrLqJ9vNY",
+  authDomain: "n322-class-e4d87.firebaseapp.com",
+  projectId: "n322-class-e4d87",
+  storageBucket: "n322-class-e4d87.appspot.com",
+  messagingSenderId: "883916453823",
+  appId: "1:883916453823:web:3d861c6698d7e3b9da530a",
+  measurementId: "G-J0Y7YNZCPM",
 };
 
 const app = initializeApp(firebaseConfig);
