@@ -4,14 +4,17 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
+import { Text } from "react-native";
 import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "react-native-reanimated";
 import { onAuthStateChanged } from "firebase/auth";
+// import { auth } from "../FirebaseConfig";
 import { useColorScheme } from "@/components/useColorScheme";
-import { auth } from "../FirebaseConfig";
+import { auth } from "@/FirebaseConfig";
+import { useNavigation, router } from "expo-router";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -52,8 +55,10 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   const colorScheme = useColorScheme();
+  const [isLoading, setIsLoading] = useState(true);
+  const navigation = useNavigation();
 
- 
+  // Need to add the firebase auth state listener here
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
