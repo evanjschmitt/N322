@@ -1,9 +1,10 @@
 {
-  "name": "fbauthapp",
+  "name": "final-project",
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start -c --tunnel",
+    "start": "expo start",
+    "tStart": "expo start --tunnel",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",

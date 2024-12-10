@@ -3,7 +3,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Text } from "react-native";
 import { Link, Tabs } from "expo-router";
 import { Pressable, Platform } from "react-native";
-
+import { StyleSheet } from "react-native";
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
@@ -19,62 +19,55 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? "light"].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
+        tabBarActiveTintColor: "#394F49", // Color for the active tab
+        tabBarInactiveTintColor: "#EFDD8D", // Color for inactive tabs
+        tabBarStyle: styles.tabBarStyle, // Custom style for the tab bar
+        tabBarLabelStyle: styles.tabBarLabel, // Style for tab labels
+        headerShown: false, // Hides the header
+        tabBarActiveBackgroundColor: "#C5EDAC"
       }}
     >
       <Tabs.Screen
         name="index"
         options={{
-          title: "Tab One",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? "light"].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
+          title: "Home Page",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="home" color={color} size={24} />
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="comments"
         options={{
-          title: "Name List",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Comments",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="comments" color={color} size={24} />
+          ),
         }}
       />
-      if () {}
-      {Platform.OS === "web" ? (
-        <Tabs.Screen
-          name="webpic"
-          options={{
-            title: "Web Image",
-            tabBarIcon: ({ color }) => (
-              <TabBarIcon name="image" color={color} />
-            ),
-          }}
-        />
-      ) : (
-        <Tabs.Screen
-          name="picture"
-          options={{
-            title: "Take Picture",
-            tabBarIcon: ({ color }) => (
-              <TabBarIcon name="camera" color={color} />
-            ),
-          }}
-        />
-      )}
+      <Tabs.Screen
+        name="signOut"
+        options={{
+          title: "Sign Out",
+          tabBarIcon: ({ color }) => (
+            <FontAwesome name="sign-out" color={color} size={24} />
+          ),
+        }}
+      />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBarStyle: {
+    backgroundColor: "#394F49", // Background color for the tab bar
+    borderTopWidth: 1, // Border at the top of the tab bar
+    borderTopColor: "#ccc", // Border color
+    height: "8%", // Height of the tab bar
+  },
+  tabBarLabel: {
+    fontSize: 18, // Font size of tab labels
+    fontWeight: "500", // Font weight for the labels
+    marginLeft: 12
+  },
+});

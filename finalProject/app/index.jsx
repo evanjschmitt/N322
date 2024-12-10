@@ -55,10 +55,11 @@ export default function index() {
         />
         <View style={styles.buttonGroup}>
           <Button mode="contained" onPress={signUp} style={styles.button}>
-            Sign Up
+            <Text style={styles.buttonText}>Sign Up</Text>
+            
           </Button>
           <Button mode="contained" onPress={signIn} style={styles.button}>
-            Sign In
+          <Text style={styles.buttonText}>Sign In</Text>
           </Button>
         </View>
       </View>
@@ -69,7 +70,7 @@ export default function index() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+    backgroundColor: "#C5EDAC",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -100,10 +101,14 @@ const styles = StyleSheet.create({
   buttonGroup: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 10,
+    marginTop: 20,
   },
   button: {
     flex: 1,
     marginHorizontal: 5,
+    backgroundColor: "#65743A",
   },
+  buttonText: {
+    fontSize: 18
+  }
 });
