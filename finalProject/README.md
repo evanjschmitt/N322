@@ -14,11 +14,6 @@ This app includes:
 
 ---
 
-### **Links**
-[Web4]()
-
----
-
 ### **Class Notes**  
 This class was *such* a fun time!  
 ✨ Developing this app has been one of the most enjoyable experiences I’ve had in a while.  
